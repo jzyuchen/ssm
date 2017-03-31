@@ -7,7 +7,6 @@
     <version>1.0-SNAPSHOT</version>
     <name>ssm Maven Webapp</name>
     <url>http://maven.apache.org</url>
-
     <dependencies>
 
         <!-- 1.日志 -->
@@ -42,7 +41,20 @@
             <artifactId>mybatis-spring</artifactId>
             <version>1.2.3</version>
         </dependency>
-
+        <!-- 分库分表插件 -->
+        <dependency>
+            <groupId>org.shardbatis</groupId>
+            <artifactId>shardbatis</artifactId>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/shardbatis-2.0.0B.jar</systemPath>
+            <version>2.0.0B</version>
+        </dependency>
+        <!-- sql解析插件 -->
+        <dependency>
+            <groupId>net.sf.jsqlparser</groupId>
+            <artifactId>jsqlparser</artifactId>
+            <version>0.8.0</version>
+        </dependency>
         <!-- 3.Servlet web -->
         <dependency>
             <groupId>taglibs</groupId>
@@ -59,6 +71,13 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.5.4</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.30</version>
+        </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -109,6 +128,13 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>4.1.7.RELEASE</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.3</version>
         </dependency>
 
         <!-- redis客户端:Jedis -->

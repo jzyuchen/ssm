@@ -14,4 +14,12 @@
         <!-- 开启驼峰命名转换:Table{create_time} -> Entity{createTime} -->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
+
+    <!-- 插件配置 -->
+    <plugins>
+        <!-- 分表插件配置 -->
+        <plugin interceptor="com.google.code.shardbatis.plugin.ShardPlugin">
+            <property name="shardingConfig" value="shard_config.xml"/>
+        </plugin>
+    </plugins>
 </configuration>
