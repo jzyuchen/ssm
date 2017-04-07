@@ -3,6 +3,7 @@ package com.jzyuchen.ssm.service.impl;
 import com.jzyuchen.ssm.dao.DynamicDataSourceContextHolder;
 import com.jzyuchen.ssm.dao.WeixinConfigurationMapper;
 import com.jzyuchen.ssm.model.WeixinConfiguration;
+import com.jzyuchen.ssm.model.WeixinConfigurationExample;
 import com.jzyuchen.ssm.service.IWeixinConfigurationService;
 import org.springframework.stereotype.Service;
 
@@ -44,8 +45,20 @@ public class WeixinConfigurationService implements IWeixinConfigurationService {
 
     @Override
     public void update(WeixinConfiguration entity) {
-
         DynamicDataSourceContextHolder.setCustomerType(DynamicDataSourceContextHolder.DATA_SOURCE_ORGANIZATION);
         this.weixinConfigurationMapper.updateByPrimaryKey(entity);
+    }
+
+    @Override
+    public WeixinConfiguration findByOrginzationId(int orgId) {
+        DynamicDataSourceContextHolder.setCustomerType(DynamicDataSourceContextHolder.DATA_SOURCE_ORGANIZATION);
+        WeixinConfigurationExample example = new WeixinConfigurationExample();
+        example.createCriteria().andOrgidEqualTo(orgId);
+        List<WeixinConfiguration> list = this.weixinConfigurationMapper.selectByExample(example);
+        if (list != null && list.size() > 0) {
+            return list.get(0);
+        }
+
+        return null;
     }
 }

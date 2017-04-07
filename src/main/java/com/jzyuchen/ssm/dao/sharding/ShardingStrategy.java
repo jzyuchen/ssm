@@ -10,10 +10,10 @@ import java.util.zip.CRC32;
  */
 public class ShardingStrategy implements ShardStrategy {
     public String getTargetTableName(String tableName, Object o, String mapper) {
-        if (mapper.equals("com.jzyuchen.ssm.dao.WeixinAccountInfoMapper.selectByPrimaryKey")) {
+        if (mapper.endsWith("selectByPrimaryKey") || mapper.endsWith("deleteByPrimaryKey")) {
             String primaryKey = (String) o;
             String tableId = hashTableId(primaryKey, 20);
-            String sTableName = tableName + "_" + Strings.padStart(tableId, 2, '0');
+            String sTableName = tableName + "_" + tableId;
             return sTableName;
         }
 

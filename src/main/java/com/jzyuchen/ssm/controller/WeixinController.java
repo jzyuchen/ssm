@@ -2,15 +2,12 @@ package com.jzyuchen.ssm.controller;
 
 import com.jzyuchen.ssm.model.WeixinAccountInfo;
 import com.jzyuchen.ssm.model.WeixinConfiguration;
-import com.jzyuchen.ssm.service.impl.WeixinAccountService;
-import com.jzyuchen.ssm.service.impl.WeixinConfigurationService;
+import com.jzyuchen.ssm.service.IWeixinAccountService;
+import com.jzyuchen.ssm.service.IWeixinConfigurationService;
 import com.jzyuchen.wechat.WechatThirdParty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,28 +18,37 @@ import java.util.List;
 @RequestMapping(value = "weixin")
 public class WeixinController {
     @Autowired
-    private WeixinConfigurationService weixinConfigurationService;
+    private IWeixinConfigurationService weixinConfigurationService;
     @Autowired
-    private WeixinAccountService weixinAccountService;
+    private IWeixinAccountService weixinAccountService;
 
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public
     @ResponseBody
-    List<WeixinConfiguration> index() {
-        return this.weixinConfigurationService.findAll();
+    List<WeixinAccountInfo> index() {
+        return this.weixinAccountService.findAll();
     }
 
     @RequestMapping(value = {"/{id}"}, method = RequestMethod.GET)
     public
     @ResponseBody
-    WeixinAccountInfo show(@PathVariable(value = "id") String id) {
-        return this.weixinAccountService.find(id);
+    List<WeixinAccountInfo> show(@PathVariable(value = "id") String id) {
+        return this.weixinAccountService.findByUserId(id);
     }
 
     @RequestMapping(value = {"/template"}, method = RequestMethod.POST)
     public
     @ResponseBody
-    String sendTemplate() {
-        return new WechatThirdParty("wxec25fb385ae5dce5", "b812cbe521c4451785d3515cb4bd92a6").getAccessToken();
+    String sendTemplate(@RequestParam("orgId") int orgId, @RequestParam("userId") String userId) {
+        WeixinConfiguration configuration = this.weixinConfigurationService.findByOrginzationId(orgId);
+
+        if (configuration != null) {
+            WeixinAccountInfo accountInfo = this.weixinAccountService.find(userId, configuration.getAppid());
+            String accessToken = new WechatThirdParty(configuration.getAppid(), configuration.getAppsecret()).getAccessToken();
+            return accessToken;
+        }
+
+        return "null";
+//        return new WechatThirdParty("wxec25fb385ae5dce5", "b812cbe521c4451785d3515cb4bd92a6").getAccessToken();
     }
 }
