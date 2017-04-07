@@ -1,22 +1,17 @@
 package com.jzyuchen.ssm.controller;
 
+import com.jzyuchen.ssm.model.WeixinAccountInfo;
 import com.jzyuchen.ssm.model.WeixinConfiguration;
-import com.jzyuchen.ssm.service.impl.WeixinService;
+import com.jzyuchen.ssm.service.impl.WeixinAccountService;
+import com.jzyuchen.ssm.service.impl.WeixinConfigurationService;
 import com.jzyuchen.wechat.WechatThirdParty;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -26,22 +21,25 @@ import java.util.List;
 @RequestMapping(value = "weixin")
 public class WeixinController {
     @Autowired
-    private WeixinService weixinService;
+    private WeixinConfigurationService weixinConfigurationService;
+    @Autowired
+    private WeixinAccountService weixinAccountService;
 
-    @RequestMapping(value = {"", "/"})
+    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public
     @ResponseBody
     List<WeixinConfiguration> index() {
-        return this.weixinService.listConfiguration();
+        return this.weixinConfigurationService.findAll();
     }
 
+    @RequestMapping(value = {"/{id}"}, method = RequestMethod.GET)
     public
     @ResponseBody
-    WeixinConfiguration show(@PathVariable(value = "id") int id) {
-        return this.weixinService.find(id);
+    WeixinAccountInfo show(@PathVariable(value = "id") String id) {
+        return this.weixinAccountService.find(id);
     }
 
-    @RequestMapping(value = {"/template"})
+    @RequestMapping(value = {"/template"}, method = RequestMethod.POST)
     public
     @ResponseBody
     String sendTemplate() {

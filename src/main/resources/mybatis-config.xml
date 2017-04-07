@@ -22,4 +22,5 @@
             <property name="shardingConfig" value="shard_config.xml"/>
         </plugin>
     </plugins>
+
 </configuration>

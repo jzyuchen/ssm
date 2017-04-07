@@ -4,11 +4,10 @@ import com.jzyuchen.ssm.model.User;
 import com.jzyuchen.ssm.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -20,11 +19,11 @@ public class UserController {
     @Autowired
     IUserService userService;
 
-    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/"}, method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
     public
     @ResponseBody
-    List<User> index() {
-        return userService.findAll();
+    String index(@RequestBody String code) {
+        return code;
     }
 
     @RequestMapping(value = {"/{id}"}, method = RequestMethod.GET)
@@ -33,5 +32,4 @@ public class UserController {
     User show(@PathVariable(value = "id") int id) {
         return this.userService.find(id);
     }
-
 }

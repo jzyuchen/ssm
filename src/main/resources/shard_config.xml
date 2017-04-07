@@ -12,7 +12,7 @@
             如果配置了parseList,只有在parseList范围内并且不再ignoreList内的sql才会被解析和修改
     -->
     <parseList>
-        <value>com.jzyuchen.ssm.dao.UserMapper.selectByExample</value>
+        <value>com.jzyuchen.ssm.dao.WeixinAccountInfoMapper.selectByPrimaryKey</value>
     </parseList>
     <!--
             配置分表策略

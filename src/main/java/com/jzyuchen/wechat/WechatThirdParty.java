@@ -22,28 +22,18 @@ public class WechatThirdParty {
     }
 
     public String getAccessToken() {
+
         String baseUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";
         String url = String.format(baseUrl, this.appId, this.appSecret);
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet method = new HttpGet(url);
-        CloseableHttpResponse response = null;
-        try {
-            response = httpClient.execute(method);
+        try (CloseableHttpResponse response = httpClient.execute(method)) {
             if (response.getStatusLine().getStatusCode() == 200) {
-                String responseText = EntityUtils.toString(response.getEntity());
-                return responseText;
+                return EntityUtils.toString(response.getEntity());
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (response != null) {
-                    response.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
         return null;
