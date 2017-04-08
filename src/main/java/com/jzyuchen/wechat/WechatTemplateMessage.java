@@ -13,4 +13,8 @@ public class WechatTemplateMessage extends WechatMessage {
     public void setMessageBody(WechatTemplateMessageBody messageBody) {
         this.messageBody = messageBody;
     }
+
+    public void addData(String key, String content, int color) {
+
+    }
 }
